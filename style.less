@@ -1,0 +1,62 @@
+@chars: 15;
+@anim-dur: 500ms;
+@line-height: 30px;
+@padding-v: 15px;
+@padding-h: 26px;
+@bg-color: #e3e3e8;
+@height: (@line-height + @padding-v * 2);
+
+@pip-real-width: 138;
+@pip-real-height: 104;
+@pip-height: (@height / 2);
+@pip-left: -(@pip-real-width / @pip-real-height * @pip-height * 0.35);
+
+.hey {
+  font-size: 0;
+  margin: 50px;
+  padding: @padding-v @padding-h;
+  line-height: @line-height;
+  color: black;
+  background-color: @bg-color;
+  font-family: Arial, sans-serif;
+  display: inline-block;
+  vertical-align: text-bottom;
+  border-radius: (@height / 1.8);
+  position: relative;
+}
+
+.hey-pip {
+  position: absolute;
+  height: @pip-height;
+  left: @pip-left;
+  bottom: -3px;
+}
+
+.hey-pip path {
+  fill: @bg-color;
+  fill-opacity: 1;
+}
+
+.hey span  {
+  display: inline-block;
+  font-size: 19pt;
+  padding: 0 0.03em;
+  animation-duration: @anim-dur;
+  animation-name: wave;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.generate-delays(@chars);
+
+.generate-delays(@n, @i: 1) when (@i =< @n) {
+  .hey span:nth-child(@{i}) {
+    animation-delay: -((@n - @i) * 2 * @anim-dur / @n);
+  }
+  .generate-delays(@n, (@i + 1));
+}
+
+@keyframes wave {
+  from { transform: translateY((@line-height/5)); }
+  to { transform: translateY(-(@line-height/5)); }
+}
